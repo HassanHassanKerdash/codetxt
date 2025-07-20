@@ -1,0 +1,41 @@
+{
+  "name": "codetxt",
+  "version": "1.0.0",
+  "description": "CLI tool to analyze and create text dumps of codebases for LLMs. A Node.js/TypeScript implementation inspired by gitingest.",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "codetxt": "dist/index.js"
+  },
+  "scripts": {
+    "start": "ts-node-esm src/index.ts",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "codetxt",
+    "cli",
+    "llm",
+    "git",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "boxen": "^8.0.1",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "figlet": "^1.8.2",
+    "ignore": "^7.0.5",
+    "ora": "^8.2.0",
+    "simple-git": "^3.25.0",
+    "tiktoken": "^1.0.14"
+  },
+  "devDependencies": {
+    "@types/figlet": "^1.7.0",
+    "@types/node": "^20.14.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
