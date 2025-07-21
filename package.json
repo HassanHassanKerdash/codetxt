@@ -1,6 +1,6 @@
 {
   "name": "codetxt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CLI tool to analyze and create text dumps of codebases for LLMs. A Node.js/TypeScript implementation inspired by gitingest.",
   "type": "module",
   "main": "dist/index.js",
@@ -28,12 +28,14 @@
     "commander": "^12.1.0",
     "figlet": "^1.8.2",
     "ignore": "^7.0.5",
+    "inquirer": "^12.8.0",
     "ora": "^8.2.0",
     "simple-git": "^3.25.0",
     "tiktoken": "^1.0.14"
   },
   "devDependencies": {
     "@types/figlet": "^1.7.0",
+    "@types/inquirer": "^9.0.8",
     "@types/node": "^20.14.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
