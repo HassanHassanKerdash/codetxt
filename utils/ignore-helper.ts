@@ -1,6 +1,6 @@
-import fs from "fs/promises";
 import path from "path";
 import ignore from "ignore";
+import fs from "fs/promises";
 import type { Ignore } from "ignore";
 import { DEFAULT_IGNORE_PATTERNS } from "./constants";
 

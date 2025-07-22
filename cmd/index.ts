@@ -1,14 +1,14 @@
 #!/usr/bin/env node
-// src/index.ts
+
 import { Command } from "commander";
 import chalk from "chalk";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import path from "path";
 
-import { main } from "./main";
-import { displayWelcomeMessage, displayError } from "./utils/display";
-import type { CliOptions } from "./types";
+import { main } from "@/lib/main";
+import { displayWelcomeMessage, displayError } from "@/utils/display";
+import type { CliOptions } from "@/lib/types";
 
 // --- 🔍 Read version from package.json ---
 function getPackageVersion(): string {

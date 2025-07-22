@@ -1,15 +1,15 @@
-import fs from "fs/promises";
-import path from "path";
 import os from "os";
 import ora from "ora";
+import path from "path";
 import chalk from "chalk";
+import fs from "fs/promises";
 import inquirer from "inquirer";
+import { ingestDirectory } from "./ingestion";
+import { displaySuccessMessage } from "@/utils/display";
+import type { CliOptions, IngestionQuery } from "./types";
+import { formatOutput } from "./output-formatter";
 import { parseQuery } from "./query-parser";
 import { cloneRepo } from "./clone";
-import { ingestDirectory } from "./ingestion";
-import { formatOutput } from "./output-formatter";
-import { displaySuccessMessage } from "./utils/display";
-import type { CliOptions, IngestionQuery } from "./types";
 
 async function fileExists(filePath: string): Promise<boolean> {
   try {

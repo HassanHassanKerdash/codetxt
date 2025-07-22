@@ -1,11 +1,11 @@
-import fs from "fs/promises";
 import path from "path";
 import chalk from "chalk";
 import ignore from "ignore";
-import { createIgnoreFilter } from "./utils/ignore-helper";
-import { createPatternMatcher } from "./utils/pattern-matcher";
-import { BINARY_FILE_EXTENSIONS } from "./utils/constants";
+import fs from "fs/promises";
 import type { FileSystemNode, IngestionQuery } from "./types";
+import { createPatternMatcher } from "@/utils/pattern-matcher";
+import { createIgnoreFilter } from "@/utils/ignore-helper";
+import { BINARY_FILE_EXTENSIONS } from "@/utils/constants";
 
 const CHUNK_SIZE_FOR_DETECTION = 1024;
 

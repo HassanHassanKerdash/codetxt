@@ -1,5 +1,5 @@
-import { get_encoding } from "tiktoken";
 import path from "path";
+import { get_encoding } from "tiktoken";
 import type { FileSystemNode, IngestionQuery } from "./types";
 
 function formatBytes(bytes: number): string {
