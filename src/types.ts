@@ -21,7 +21,7 @@ export interface IngestionQuery {
 export interface FileSystemNode {
   name: string;
   path: string;
-  type: 'file' | 'directory';
+  type: "file" | "directory";
   children?: FileSystemNode[];
   content?: string;
   size: number;

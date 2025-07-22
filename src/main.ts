@@ -1,15 +1,15 @@
-import fs from 'fs/promises';
-import path from 'path';
-import os from 'os';
-import ora from 'ora';
-import chalk from 'chalk';
-import inquirer from 'inquirer';
-import { parseQuery } from './query-parser.js';
-import { cloneRepo } from './clone.js';
-import { ingestDirectory } from './ingestion.js';
-import { formatOutput } from './output-formatter.js';
-import { displaySuccessMessage } from './utils/display.js';
-import type { CliOptions, IngestionQuery } from './types.js';
+import fs from "fs/promises";
+import path from "path";
+import os from "os";
+import ora from "ora";
+import chalk from "chalk";
+import inquirer from "inquirer";
+import { parseQuery } from "./query-parser";
+import { cloneRepo } from "./clone";
+import { ingestDirectory } from "./ingestion";
+import { formatOutput } from "./output-formatter";
+import { displaySuccessMessage } from "./utils/display";
+import type { CliOptions, IngestionQuery } from "./types";
 
 async function fileExists(filePath: string): Promise<boolean> {
   try {
@@ -26,40 +26,40 @@ export async function main(source: string, options: CliOptions): Promise<void> {
 
   try {
     if (query.isRemote) {
-      const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'codetxt-'));
+      const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "codetxt-"));
       query.tempDir = tempDir;
       query.repoPath = tempDir;
-      
+
       spinner.start(`Cloning repository from ${source}...`);
       await cloneRepo(query.source, query.repoPath, options.branch);
-      spinner.succeed('Repository cloned successfully.');
+      spinner.succeed("Repository cloned successfully.");
     }
 
     spinner.start(`Ingesting files from ${query.repoPath}...`);
     const rootNode = await ingestDirectory(query);
-    spinner.succeed('Ingestion complete.');
-    
-    spinner.start('Formatting output and calculating tokens...');
-    const { finalDigest, summary } = formatOutput(rootNode, query);
-    spinner.succeed('Output formatted.');
-    
-    const outputPath = options.output || 'code.txt';
+    spinner.succeed("Ingestion complete.");
 
-    if (options.output === '-') {
+    spinner.start("Formatting output and calculating tokens...");
+    const { finalDigest, summary } = formatOutput(rootNode, query);
+    spinner.succeed("Output formatted.");
+
+    const outputPath = options.output || "code.txt";
+
+    if (options.output === "-") {
       process.stdout.write(finalDigest);
       return;
     }
-    
+
     const fileAlreadyExists = await fileExists(outputPath);
     let proceedToWrite = true;
 
     if (fileAlreadyExists && !options.force) {
-      spinner.stop(); 
-      
+      spinner.stop();
+
       const { confirmOverwrite } = await inquirer.prompt([
         {
-          type: 'confirm',
-          name: 'confirmOverwrite',
+          type: "confirm",
+          name: "confirmOverwrite",
           message: `The file "${chalk.yellow(outputPath)}" already exists. Do you want to delete it and create a new one?`, // Updated message
           default: true,
         },
@@ -67,7 +67,7 @@ export async function main(source: string, options: CliOptions): Promise<void> {
 
       if (!confirmOverwrite) {
         proceedToWrite = false;
-        console.log(chalk.red('\nOperation cancelled by user. Exiting.'));
+        console.log(chalk.red("\nOperation cancelled by user. Exiting."));
         process.exit(0);
       }
     }
@@ -81,8 +81,8 @@ export async function main(source: string, options: CliOptions): Promise<void> {
           spinner.text = `Old file "${outputPath}" deleted. Creating new file...`;
         }
 
-        await fs.writeFile(outputPath, finalDigest, { encoding: 'utf-8' });
-        
+        await fs.writeFile(outputPath, finalDigest, { encoding: "utf-8" });
+
         spinner.succeed();
         displaySuccessMessage(summary, outputPath);
       } catch (writeError) {
@@ -90,10 +90,9 @@ export async function main(source: string, options: CliOptions): Promise<void> {
         throw writeError;
       }
     }
-    
   } catch (error) {
     if (spinner.isSpinning) {
-      spinner.fail('An error occurred during the process.');
+      spinner.fail("An error occurred during the process.");
     }
     throw error;
   } finally {
