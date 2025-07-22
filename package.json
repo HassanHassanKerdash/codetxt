@@ -3,44 +3,44 @@
   "version": "1.0.1",
   "description": "CLI tool to analyze and create text dumps of codebases for LLMs. A Node.js/TypeScript implementation inspired by gitingest.",
   "type": "module",
-  "main": "dist/index.js",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "bin": {
-    "codetxt": "dist/index.js"
+    "codetxt": "./dist/index.js"
   },
   "scripts": {
-    "start": "tsx src/index.ts",
-    "build": "tsc",
-    "prepublishOnly": "npm run build",
+    "dev": "bun ./bin/index.ts",
+    "build": "bun build ./bin/index.ts --minify --outdir=dist --target=node",
+    "start": "bun ./dist/index.js",
+    "prepublishOnly": "bun run build",
     "format": "prettier --write .",
     "check": "tsc --noEmit"
   },
-  "keywords": [
-    "codetxt",
-    "cli",
-    "llm",
-    "git",
-    "typescript"
-  ],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
+    "@types/figlet": "^1.7.0",
+    "@types/node": "^20.14.2",
     "boxen": "^8.0.1",
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
+    "enquirer": "^2.4.1",
     "figlet": "^1.8.2",
     "ignore": "^7.0.5",
-    "inquirer": "^12.8.0",
     "ora": "^8.2.0",
-    "simple-git": "^3.25.0",
-    "tiktoken": "^1.0.14"
-  },
-  "devDependencies": {
-    "@types/figlet": "^1.7.0",
-    "@types/inquirer": "^9.0.8",
-    "@types/node": "^20.14.2",
-    "esbuild": "^0.25.8",
     "prettier": "^3.6.2",
-    "tsx": "^4.20.3",
+    "simple-git": "^3.25.0",
+    "tiktoken": "^1.0.14",
     "typescript": "^5.4.5"
-  }
+  },
+  "keywords": [
+    "codetxt",
+    "typescript",
+    "cli",
+    "llm",
+    "git"
+  ]
 }

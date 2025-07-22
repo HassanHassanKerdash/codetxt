@@ -3,7 +3,7 @@ import ora from "ora";
 import path from "path";
 import chalk from "chalk";
 import fs from "fs/promises";
-import inquirer from "inquirer";
+import enquirer from "enquirer";
 import { ingestDirectory } from "./ingestion";
 import { displaySuccessMessage } from "@/utils/display";
 import type { CliOptions, IngestionQuery } from "./types";
@@ -56,14 +56,12 @@ export async function main(source: string, options: CliOptions): Promise<void> {
     if (fileAlreadyExists && !options.force) {
       spinner.stop();
 
-      const { confirmOverwrite } = await inquirer.prompt([
-        {
-          type: "confirm",
-          name: "confirmOverwrite",
-          message: `The file "${chalk.yellow(outputPath)}" already exists. Do you want to delete it and create a new one?`, // Updated message
-          default: true,
-        },
-      ]);
+      const { confirmOverwrite } = await new enquirer<{ confirmOverwrite: boolean }>().prompt({
+        type: "confirm",
+        name: "confirmOverwrite",
+        message: `The file "${chalk.yellow(outputPath)}" already exists. Do you want to overwrite it?`, // Updated message
+        initial: true,
+      });
 
       if (!confirmOverwrite) {
         proceedToWrite = false;

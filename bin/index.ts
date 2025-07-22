@@ -1,27 +1,10 @@
 #!/usr/bin/env node
-
-import { Command } from "commander";
 import chalk from "chalk";
-import { readFileSync } from "fs";
-import { fileURLToPath } from "url";
-import path from "path";
-
-import { main } from "@/lib/main";
+import { Command } from "commander";
 import { displayWelcomeMessage, displayError } from "@/utils/display";
 import type { CliOptions } from "@/lib/types";
-
-// --- 🔍 Read version from package.json ---
-function getPackageVersion(): string {
-  const __dirname = path.dirname(fileURLToPath(import.meta.url));
-  const packageJsonPath = path.resolve(__dirname, "..", "package.json");
-
-  try {
-    const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
-    return packageJson.version || "unknown";
-  } catch {
-    return "unknown";
-  }
-}
+import { version } from "@/package.json";
+import { main } from "@/lib/main";
 
 // --- 🧠 Define CLI ---
 const program = new Command();
@@ -32,7 +15,7 @@ program
     "⚡ Convert any Git repo or directory into prompt-friendly text for LLMs."
   )
   .version(
-    getPackageVersion(),
+    version,
     "-V, --version",
     "📦 Output the current version."
   )
@@ -77,9 +60,9 @@ program
       displayWelcomeMessage();
       console.log(
         "\n" +
-          chalk.bgRed.white.bold(" ERROR ") +
-          " " +
-          chalk.red("Missing required argument: <source>\n")
+        chalk.bgRed.white.bold(" ERROR ") +
+        " " +
+        chalk.red("Missing required argument: <source>\n")
       );
       console.log(
         chalk.gray(
