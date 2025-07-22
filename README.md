@@ -4,26 +4,23 @@ A CLI tool to turn any Git repository into a prompt-friendly text ingest for LLM
 
 Whether you're preparing codebases for AI analysis, training data, or static search indexing, CodeTxt helps you generate clean, filtered code dumps with ease.
 
+## Features
+- Zero dependencies.
+- Analyze remote Git repositories or local directories.
+- Output to a file or stdout.
+- Filter files by size, patterns, and Git ignore rules.
+- Supports glob-style pattern matching for fine-grained control.
+
 ## Installation
 
 ### Prerequisites
 
-First, ensure you have Node.js (v18 or higher) installed on your system.
+- Ensure you have Node.js (v18 or higher) installed on your system.
+- For development, you need [Bun.sh](https://bun.sh/) installed, check the development section below.
 
 ### Global Installation
 
 You can install the CLI globally in one of two ways:
-
-#### Option 1: Install from local project
-
-```bash
-# After cloning the repository
-npm install -g .
-```
-
-This command needs to be run from the root of the project. It will build the TypeScript code and link the `codetxt` command to your system.
-
-#### Option 2: Install from npm registry (when published)
 
 ```bash
 npm install -g codetxt
@@ -148,6 +145,7 @@ This gives you complete control over what gets analyzed, which is perfect for fo
 ## How to Set Up for Development
 
 1.  Clone this repository.
-2.  Install dependencies: `npm install`
-3.  Build the project: `npm run build`
-4.  Run directly using `ts-node`: `npm start .`
+2.  Install Bun.sh `curl -fsSL https://bun.sh/install | bash`
+3.  Install dependencies: `bun install`
+4.  Build the project: `bun run build`
+5.  Run directly using `bun run start .`:

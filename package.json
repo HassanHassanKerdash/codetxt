@@ -1,6 +1,6 @@
 {
   "name": "codetxt",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "CLI tool to analyze and create text dumps of codebases for LLMs. A Node.js/TypeScript implementation inspired by gitingest.",
   "type": "module",
   "license": "MIT",
