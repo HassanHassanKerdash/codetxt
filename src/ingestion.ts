@@ -1,8 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import chalk from 'chalk';
-import ignore from 'ignore';
-import { createIgnoreFilter } from './utils/ignore-helper.js';
+import { NestedIgnoreFilter } from './utils/ignore-helper.js';
 import { createPatternMatcher } from './utils/pattern-matcher.js';
 import { BINARY_FILE_EXTENSIONS } from './utils/constants.js'; 
 import type { FileSystemNode, IngestionQuery } from './types.js';
@@ -16,7 +15,12 @@ function isLikelyBinary(buffer: Buffer): boolean {
 export async function ingestDirectory(query: IngestionQuery): Promise<FileSystemNode> {
   const { repoPath, options, outputPath } = query;
 
-  const gitignoreFilter = options.includeGitignored ? ignore() : await createIgnoreFilter(repoPath);
+  const gitignoreFilter = options.includeGitignored
+    ? null
+    : new NestedIgnoreFilter(repoPath);
+  if (gitignoreFilter) {
+    await gitignoreFilter.loadRootGitignore(repoPath);
+  }
   const includeMatcher = createPatternMatcher(options.includePattern);
   const excludeMatcher = createPatternMatcher(options.excludePattern);
   const maxSize = parseInt(options.maxSize, 10);
@@ -36,7 +40,7 @@ export async function ingestDirectory(query: IngestionQuery): Promise<FileSystem
     const stats = await fs.stat(currentPath);
 
     if (relativePath) {
-      if (gitignoreFilter.ignores(relativePath)) return null;
+      if (gitignoreFilter?.ignores(currentPath)) return null;
       if (excludeMatcher?.ignores(relativePath)) return null;
       if (includeMatcher && stats.isFile() && !includeMatcher.ignores(relativePath)) {
         return null;
@@ -46,12 +50,21 @@ export async function ingestDirectory(query: IngestionQuery): Promise<FileSystem
     const nodeName = path.basename(currentPath);
 
     if (stats.isDirectory()) {
+      // Load nested .gitignore for this directory before processing children
+      const hasGitignore = await gitignoreFilter?.pushGitignoreIfExists(currentPath) ?? false;
+
       const childrenEntries = await fs.readdir(currentPath);
       const childrenNodes: FileSystemNode[] = [];
       for (const child of childrenEntries) {
         const childNode = await walk(path.join(currentPath, child));
         if (childNode) childrenNodes.push(childNode);
       }
+
+      // Pop the nested .gitignore after finishing this directory
+      if (hasGitignore) {
+        gitignoreFilter!.pop();
+      }
+
       if (childrenNodes.length === 0) return null;
       return {
         name: nodeName, path: relativePath, type: 'directory',

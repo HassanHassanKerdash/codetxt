@@ -103,3 +103,6 @@ test-results.xml
 package-lock.json
 yarn.lock
 pnpm-lock.yaml 
+
+# ignore generated code.txt
+code.txt
