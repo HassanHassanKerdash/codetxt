@@ -10,7 +10,7 @@ export const BINARY_FILE_EXTENSIONS = new Set([
 
     // == Video ==
     '.mp4', '.mkv', '.mov', '.avi', '.wmv', '.flv', '.webm', '.3gp', '.3g2', '.m4v', '.mpg', '.mpeg', '.mp2', '.mts',
-    '.ts', '.m2ts', '.rm', '.rmvb', '.vob', '.ogv', '.asf', '.amv', '.f4v', '.bik', '.drc', '.nsv',
+    '.m2ts', '.rm', '.rmvb', '.vob', '.ogv', '.asf', '.amv', '.f4v', '.bik', '.drc', '.nsv',
 
     // == Audio ==
     '.mp3', '.wav', '.ogg', '.oga', '.flac', '.aac', '.m4a', '.wma', '.alac', '.aiff', '.au', '.mid', '.midi', '.amr', '.ra',
